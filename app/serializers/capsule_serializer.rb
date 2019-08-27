@@ -1,3 +1,3 @@
 class CapsuleSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :title
 end
