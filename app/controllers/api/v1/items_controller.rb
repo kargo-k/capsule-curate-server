@@ -13,7 +13,7 @@ class Api::V1::ItemsController < ApplicationController
   private
 
   def items_params
-    params.require(:id)
+    params.require(:id).permit(:category, :color, :brand)
   end
 
 end
