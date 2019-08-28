@@ -6,7 +6,7 @@ require 'open-uri'
 # User.delete_all
 # Capsule.delete_all
 
-def scrape(file, category, category2)
+def everlane(file, category, category2)
 
   url = 'www.everlane.com'
   brand = 'Everlane'
@@ -45,6 +45,11 @@ def scrape(file, category, category2)
 
 end
 
-# scrape("https://www.everlane.com/collections/womens-tees")
-scrape('db/bitesize.html','sweater')
-0
+everlane('db/everlane/sweaters.html','sweater','top')
+everlane('db/everlane/denim.html','denim','bottoms')
+everlane('db/everlane/dresses.html','dress','one piece')
+everlane('db/everlane/outerwear.html','outerwear','outerwear')
+everlane('db/everlane/pants.html','pants','bottoms')
+everlane('db/everlane/shorts.html','shorts','bottoms')
+everlane('db/everlane/tees.html','tee','top')
+everlane('db/everlane/tops.html','top','top')
