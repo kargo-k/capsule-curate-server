@@ -1,14 +1,17 @@
 class Api::V1::UsersController < ApplicationController
 
   def create
-    @user = User.create(user_params)
+
+    @user = User.new(user_params)
+    @user.save!
+
     if @user.valid?
       render json: 
         { user: UserSerializer.new(@user) },
         status: :created
     else
       render json:
-        {error: 'Failed to create user'},
+        {error: 'Username already exists - Please choose a new username.'},
         status: :not_acceptable
     end
   end
@@ -16,6 +19,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:username, :password, :bio, :first_name, :last_name, :email, :location)
+      params.require(:user).permit(:username, :password, :location)
     end
+
 end
