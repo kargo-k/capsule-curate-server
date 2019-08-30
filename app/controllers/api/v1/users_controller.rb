@@ -1,14 +1,22 @@
 class Api::V1::UsersController < ApplicationController
+  skip_before_action :authorized, only: [:create]
 
   def create
-    @user = User.create(user_params)
+
+    @user = User.new(user_params)
+    @user.save!
+
     if @user.valid?
+      @token = encode_token(user_id: @user.id)
       render json: 
-        { user: UserSerializer.new(@user) },
-        status: :created
+      { 
+        user: UserSerializer.new(@user),
+        jwt: @token 
+      },
+      status: :created
     else
       render json:
-        {error: 'Failed to create user'},
+        {error: 'User not created.'},
         status: :not_acceptable
     end
   end
@@ -16,6 +24,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:username, :password, :bio, :first_name, :last_name, :email, :location)
+      params.require(:user).permit(:username, :password, :location)
     end
+
 end
