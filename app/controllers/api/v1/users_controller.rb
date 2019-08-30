@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+  # skip_before_action :authorized, only: [:create]
 
   def create
 
@@ -6,12 +7,16 @@ class Api::V1::UsersController < ApplicationController
     @user.save!
 
     if @user.valid?
+      @token = encode_token(user_id: @user.id)
       render json: 
-        { user: UserSerializer.new(@user) },
-        status: :created
+      { 
+        user: UserSerializer.new(@user),
+        jwt: @token 
+      },
+      status: :created
     else
       render json:
-        {error: 'Username already exists - Please choose a new username.'},
+        {error: 'User not created.'},
         status: :not_acceptable
     end
   end
