@@ -2,7 +2,6 @@ class Api::V1::UsersController < ApplicationController
   skip_before_action :authorized, only: [:create]
 
   def create
-
     @user = User.new(user_params)
     @user.save!
 
@@ -19,6 +18,13 @@ class Api::V1::UsersController < ApplicationController
         {error: 'User not created.'},
         status: :not_acceptable
     end
+  end
+
+  def profile
+    render json: {
+      user: UserSerializer.new(current_user)
+    }, 
+    status: :accepted
   end
 
   private
