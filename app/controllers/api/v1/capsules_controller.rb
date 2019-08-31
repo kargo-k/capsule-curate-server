@@ -1,7 +1,9 @@
 class Api::V1::CapsulesController < ApplicationController
   
   def index
-    capsules = Capsule.all
+    # byebug
+    capsules = current_user.capsules
+    # byebug
     render json: capsules
   end
 
