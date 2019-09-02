@@ -27,6 +27,15 @@ class Api::V1::UsersController < ApplicationController
     status: :accepted
   end
 
+  def destroy
+    if @user = current_user.delete
+      render json: {user: UserSerializer.new(@user)},
+      status: :deleted
+    else
+      render json: {error: 'User cannot be deleted.'}
+    end
+  end
+
   private
 
     def user_params
