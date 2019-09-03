@@ -27,6 +27,14 @@ class Api::V1::UsersController < ApplicationController
     status: :accepted
   end
 
+  def destroy
+    if !current_user.delete
+      render json: {error: 'User cannot be deleted.'}
+    else
+      render json: {message: 'Delete Successful'}, status: :accepted
+    end
+  end
+
   private
 
     def user_params
