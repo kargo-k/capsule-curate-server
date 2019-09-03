@@ -13,13 +13,16 @@ class Api::V1::CapsulesController < ApplicationController
   end
 
   def create
-    # TODO: if active, make old capsule active to false
+    # makes the old active capsules inactive (active = false) so that the user can only have one active capsule at a time
+    if capsule_params['active']
+      old_active = current_user.capsules.where(active: true)
+      old_active.update(active: false)
+    end
+
     @capsule = Capsule.new(capsule_params)
     @capsule.update(user_id: current_user.id)
-    @capsule.save!
-
+    
     if @capsule.valid?
-      byebug
       render json:
       {capsule: CapsuleSerializer.new(@capsule)},
       status: :created
@@ -35,4 +38,5 @@ class Api::V1::CapsulesController < ApplicationController
   def capsule_params
     params.require(:capsule).permit(:title, :description, :season, :colors, :active)
   end
+
 end
