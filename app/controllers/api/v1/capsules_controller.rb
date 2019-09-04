@@ -33,6 +33,19 @@ class Api::V1::CapsulesController < ApplicationController
     end
   end
 
+  def destroy
+    @capsule = Capsule.find(params[:id])
+    @user = User.find(@capsule.user_id)
+    if !@capsule.delete
+      render json: {error: 'Capsule could not be deleted'}
+    else
+      if @user.capsules.last
+        @user.capsules.last.update(active: true)
+      end
+      render json: {message: 'Successfully deleted capsule'}, status: :accepted
+    end
+  end
+
   private
 
   def capsule_params
