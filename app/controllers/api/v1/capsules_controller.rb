@@ -14,14 +14,14 @@ class Api::V1::CapsulesController < ApplicationController
 
   def create
     # makes the old active capsules inactive (active = false) so that the user can only have one active capsule at a time
-    if capsule_params['active']
+    if capsule_params['active'] == true
       old_active = current_user.capsules.where(active: true)
       old_active.update(active: false)
     end
-
+    # byebug
     @capsule = Capsule.new(capsule_params)
-    @capsule.update(user_id: current_user.id)
-    
+    @capsule.user_id = current_user.id
+    # byebug
     if @capsule.valid?
       render json:
       {capsule: CapsuleSerializer.new(@capsule)},
