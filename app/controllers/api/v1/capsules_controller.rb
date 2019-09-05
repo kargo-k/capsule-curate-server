@@ -39,10 +39,10 @@ class Api::V1::CapsulesController < ApplicationController
   end
 
   def update
-    byebug
+
     @capsule = Capsule.find(params[:capsule_id])
     @item = Item.find(params[:item_id])
-
+    # only adds the item if is it not already in the capsule's item list
     if @capsule.items.include?(@item)
       render json: {error: 'Item already exists in the capsule'}, status: :not_acceptable
     else
