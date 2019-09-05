@@ -18,10 +18,10 @@ class Api::V1::CapsulesController < ApplicationController
       old_active = current_user.capsules.where(active: true)
       old_active.update(active: false)
     end
-    # byebug
+
     @capsule = Capsule.new(capsule_params)
     @capsule.user_id = current_user.id
-    # byebug
+
     if @capsule.valid?
       render json:
       {capsule: CapsuleSerializer.new(@capsule)},
@@ -31,6 +31,14 @@ class Api::V1::CapsulesController < ApplicationController
       {error: 'Capsule not created.'},
       status: :not_acceptable
     end
+  end
+
+  def update
+    @capsule = Capsule.find(params[:capsule_id])
+    @item = Item.find(params[:item_id])
+    @capsule.items << @item
+    @capsule.save
+    render json: {message: 'Successfully added item to capsule'}, status: :accepted
   end
 
   def destroy

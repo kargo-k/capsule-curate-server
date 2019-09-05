@@ -22,7 +22,8 @@ class Api::V1::UsersController < ApplicationController
 
   def profile
     render json: {
-      user: UserSerializer.new(current_user)
+      user: UserSerializer.new(current_user),
+      active_capsule: current_user.capsules.where(active: true)
     }, 
     status: :accepted
   end
