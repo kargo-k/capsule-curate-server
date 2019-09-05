@@ -9,7 +9,12 @@ class Api::V1::CapsulesController < ApplicationController
 
   def show
     capsule = Capsule.find(params[:id])
-    render json: capsule
+    items = capsule.items
+    render json: 
+      {
+        capsule: capsule,
+        items: items
+      }
   end
 
   def create
@@ -34,11 +39,17 @@ class Api::V1::CapsulesController < ApplicationController
   end
 
   def update
+    byebug
     @capsule = Capsule.find(params[:capsule_id])
     @item = Item.find(params[:item_id])
-    @capsule.items << @item
-    @capsule.save
-    render json: {message: 'Successfully added item to capsule'}, status: :accepted
+
+    if @capsule.items.include?(@item)
+      render json: {error: 'Item already exists in the capsule'}, status: :not_acceptable
+    else
+      @capsule.items << @item
+      @capsule.save
+      render json: {message: 'Successfully added item to capsule'}, status: :accepted
+    end
   end
 
   def destroy
