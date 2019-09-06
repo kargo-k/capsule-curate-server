@@ -39,12 +39,14 @@ class Api::V1::CapsulesController < ApplicationController
   end
 
   def update
-
     @capsule = Capsule.find(params[:capsule_id])
     @item = Item.find(params[:item_id])
-    # only adds the item if is it not already in the capsule's item list
+    # only adds the item if is it not already in the capsule's item list, removes the item from the capsule if it already exists
     if @capsule.items.include?(@item)
-      render json: {error: 'Item already exists in the capsule'}, status: :not_acceptable
+      new_items = @capsule.items.filter{|item| item != @item}
+      @capsule.items = new_items
+      @capsule.save
+      render json: {message: 'Item removed from capsule'}, status: :accepted
     else
       @capsule.items << @item
       @capsule.save
