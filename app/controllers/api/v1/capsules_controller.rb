@@ -9,19 +9,24 @@ class Api::V1::CapsulesController < ApplicationController
 
   def show
     capsule = Capsule.find(params[:id])
-    render json: capsule
+    items = capsule.items
+    render json: 
+      {
+        capsule: capsule,
+        items: items
+      }
   end
 
   def create
     # makes the old active capsules inactive (active = false) so that the user can only have one active capsule at a time
-    if capsule_params['active']
+    if capsule_params['active'] == true
       old_active = current_user.capsules.where(active: true)
       old_active.update(active: false)
     end
 
     @capsule = Capsule.new(capsule_params)
-    @capsule.update(user_id: current_user.id)
-    
+    @capsule.user_id = current_user.id
+
     if @capsule.valid?
       render json:
       {capsule: CapsuleSerializer.new(@capsule)},
@@ -30,6 +35,22 @@ class Api::V1::CapsulesController < ApplicationController
       render json:
       {error: 'Capsule not created.'},
       status: :not_acceptable
+    end
+  end
+
+  def update
+    @capsule = Capsule.find(params[:capsule_id])
+    @item = Item.find(params[:item_id])
+    # only adds the item if is it not already in the capsule's item list, removes the item from the capsule if it already exists
+    if @capsule.items.include?(@item)
+      new_items = @capsule.items.filter{|item| item != @item}
+      @capsule.items = new_items
+      @capsule.save
+      render json: {message: 'Item removed from capsule'}, status: :accepted
+    else
+      @capsule.items << @item
+      @capsule.save
+      render json: {message: 'Successfully added item to capsule'}, status: :accepted
     end
   end
 
