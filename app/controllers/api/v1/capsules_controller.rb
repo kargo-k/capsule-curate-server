@@ -39,6 +39,22 @@ class Api::V1::CapsulesController < ApplicationController
     end
   end
 
+  def activate
+    # finds the capsule
+    @capsule = Capsule.find(params[:id])
+    # if the capsule's active status is false, and the user wants to active it, make all the other capsules also false before changing the capsule's active status to true
+    if @capsule.active == false
+      old_active = @capsule.user.capsules.where(active: true)
+      old_active.update(active: false)
+      @capsule.update(active: true)
+    else
+      # if the capsule's active status is true, and the user wants to deactivate it, just update the capsule's active status to false
+      @capsule.update(active: false)
+    end
+
+    render json: {message: 'Capsule updated'}, status: :accepted
+  end
+
   def update
     @capsule = Capsule.find(params[:capsule_id])
     @item = Item.find(params[:item_id])

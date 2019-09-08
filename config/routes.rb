@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
       delete '/profile', to: 'users#destroy'
+      patch '/capsules/activate/:id', to: 'capsules#activate'
     end
   end
 
