@@ -19,7 +19,7 @@ class Api::V1::CapsulesController < ApplicationController
 
   def create
     # makes the old active capsules inactive (active = false) so that the user can only have one active capsule at a time
-    if capsule_params['active'] == true
+    if capsule_params['active'] == "true"
       old_active = current_user.capsules.where(active: true)
       old_active.update(active: false)
     end
@@ -28,6 +28,7 @@ class Api::V1::CapsulesController < ApplicationController
     @capsule.user_id = current_user.id
 
     if @capsule.valid?
+      @capsule.save
       render json:
       {capsule: CapsuleSerializer.new(@capsule)},
       status: :created
@@ -36,6 +37,22 @@ class Api::V1::CapsulesController < ApplicationController
       {error: 'Capsule not created.'},
       status: :not_acceptable
     end
+  end
+
+  def activate
+    # finds the capsule
+    @capsule = Capsule.find(params[:id])
+    # if the capsule's active status is false, and the user wants to active it, make all the other capsules also false before changing the capsule's active status to true
+    if @capsule.active == false
+      old_active = @capsule.user.capsules.where(active: true)
+      old_active.update(active: false)
+      @capsule.update(active: true)
+    else
+      # if the capsule's active status is true, and the user wants to deactivate it, just update the capsule's active status to false
+      @capsule.update(active: false)
+    end
+
+    render json: {capsule: CapsuleSerializer.new(@capsule), message: 'Capsule updated'}, status: :accepted
   end
 
   def update
