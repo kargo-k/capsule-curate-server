@@ -52,7 +52,7 @@ class Api::V1::CapsulesController < ApplicationController
       @capsule.update(active: false)
     end
 
-    render json: {message: 'Capsule updated'}, status: :accepted
+    render json: {capsule: CapsuleSerializer.new(@capsule), message: 'Capsule updated'}, status: :accepted
   end
 
   def update
