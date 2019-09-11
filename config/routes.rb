@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       resources :capsules
       post '/login', to: 'auth#create'
       get '/profile', to: 'users#profile'
-      delete '/profile', to: 'users#destroy'
+      delete '/delete', to: 'users#destroy'
       patch '/capsules/activate/:id', to: 'capsules#activate'
     end
   end

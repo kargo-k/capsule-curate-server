@@ -7,12 +7,7 @@ class Api::V1::UsersController < ApplicationController
 
     if @user.valid?
       @token = encode_token(user_id: @user.id)
-      render json: 
-      { 
-        user: UserSerializer.new(@user),
-        jwt: @token 
-      },
-      status: :created
+      render json: {user: UserSerializer.new(@user), jwt: @token, status: 201}, status: :created
     else
       render json:
         {error: 'User not created.'},
@@ -29,10 +24,11 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def destroy
-    if !current_user.delete
+    result = !!current_user.delete
+    if !result
       render json: {error: 'User cannot be deleted.'}
     else
-      render json: {message: 'Delete Successful'}, status: :accepted
+      render json: {message: 'Delete Successful', status: 204}, status: :no_content
     end
   end
 
