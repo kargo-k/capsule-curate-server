@@ -12,7 +12,8 @@ class Api::V1::AuthController < ApplicationController
       render json: { 
         user: UserSerializer.new(@user), 
         capsule: active_capsule[0],
-        jwt: token
+        jwt: token,
+        status: 200
       }, 
         status: :accepted
     else

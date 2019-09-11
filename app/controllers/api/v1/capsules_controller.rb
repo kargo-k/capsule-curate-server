@@ -63,7 +63,7 @@ class Api::V1::CapsulesController < ApplicationController
       new_items = @capsule.items.filter{|item| item != @item}
       @capsule.items = new_items
       @capsule.save
-      render json: {message: 'Item removed from capsule'}, status: :accepted
+      render json: {capsule: CapsuleSerializer.new(@capsule), message: 'Item removed from capsule'}, status: :accepted
     else
       @capsule.items << @item
       @capsule.save
