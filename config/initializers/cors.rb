@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'capsule-curate-client.herokuapp.com/'
+    origins 'https://capsule-curate-client.herokuapp.com'
 
     resource '*',
       headers: :any,
