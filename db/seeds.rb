@@ -53,11 +53,13 @@ end
 # everlane('db/everlane/shorts.html','shorts','bottoms')
 # everlane('db/everlane/tees.html','tee','top')
 # everlane('db/everlane/tops.html','top','top')
+# everlane('db/everlane/bags.html','bag','accessories')
+# everlane('db/everlane/shoes.html','shoes','shoes')
 
 
 def nordy(url, category, category2)
   base_url = 'https://shop.nordstrom.com'
-  brand = 'Nordstrom Sustainable Style'
+  brand = 'Nordstrom Sustainable'
   html_data = open(url).read
   # html_data = File.read(file)
   obj = Nokogiri::HTML(html_data)
@@ -91,18 +93,22 @@ def nordy(url, category, category2)
 
 end
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60202026', 'outerwear', 'outerwear')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60202026', 'outerwear', 'outerwear')
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60130139', 'dress', 'one piece')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60130139', 'dress', 'one piece')
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000796', 'outerwear', 'outerwear')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000796', 'outerwear', 'outerwear')
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000819', 'denim', 'bottoms')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000819', 'denim', 'bottoms')
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000831', 'pants', 'bottoms')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000831', 'pants', 'bottoms')
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60129453', 'top', 'top')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60129453', 'top', 'top')
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000851', 'sweater', 'top')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_8000851', 'sweater', 'top')
 
-nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60129871', 'tee', 'top')
+# nordy('https://shop.nordstrom.com/c/sustainable-style?breadcrumb=Home%2FSustainable%20Style&flexi=60126782_60126784&flexi=8000786_60129871', 'tee', 'top')
+
+# nordy('https://shop.nordstrom.com/c/sustainable-style?flexi=60126782_60126784&flexi=8000786_60130766%7C8000786_8000803%7C8000786_8000829%7C8000786_60127365', 'jewelery', 'accessories')
+
+# nordy('https://shop.nordstrom.com/c/sustainable-style?flexi=60126782_60126784&flexi=8000786_60205299%7C8000786_60205393%7C8000786_60205305', 'bag', 'accessories')
